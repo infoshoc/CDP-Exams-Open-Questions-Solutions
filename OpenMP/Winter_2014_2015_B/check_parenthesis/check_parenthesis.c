@@ -23,7 +23,7 @@ bool check_parenthesis(const char *str, int len)
         total_sum[thread_id] = 0;
         minimal_sum[thread_id] = 0;
         
-// splits to sequential chunks
+// splits to sequential chunks O(n/p)
 #pragma omp for schedule(static)
         for (int i = 0; i < len; ++i)
         {
@@ -41,6 +41,7 @@ bool check_parenthesis(const char *str, int len)
     int total_total_sum = 0;
     bool result = true;
     
+// O(p)
     for (int j = 0; j < threads_number; ++j)
     {
         if (total_total_sum + minimal_sum[j] < 0) {
