@@ -8,6 +8,8 @@ bool is_a_cyclic(void)
     
 #pragma omp parallel for schedule(dynamic, 1)
     for (int i = 0; i < N; ++i) {
+//Read result from memory
+#pragma omp flush (result)
         if (!result) {
             continue;
         }
@@ -19,6 +21,8 @@ bool is_a_cyclic(void)
         {
             ++number_of_visited_elements;
             j = (j + a[j]) % N;
+//Read result from memory
+#pragma omp flush (result)
         }
         while (number_of_visited_elements <= N && result && i != j);
         
@@ -27,6 +31,7 @@ bool is_a_cyclic(void)
             printf("Problem on index:%d\n", i);
             
             result = false;
+//Write result to memory
 #pragma omp flush(result)
         }
     }
